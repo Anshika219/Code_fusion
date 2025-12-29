@@ -11,7 +11,7 @@ if options=="Text":
 elif options=="Image":
     image_input=st.file_uploader("upload UPI screenshot or Bill")
     if image_input:
-        st.image(image,caption="Uploaded Image",use_column_width=True)
+        st.image(image_input,caption="Uploaded Image",use_column_width=True)
 if st.button("Extract Expense"):
     st.subheader("Extracted Expense (prototype output)")
     dumy_json={
