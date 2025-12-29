@@ -1,4 +1,5 @@
 import streamlit as st
+import requests
 st.set_page_config(
     page_title="AI-Driven Expense Tracker For Indian Students",
     layout="centered"
@@ -13,12 +14,19 @@ elif options=="Image":
     if image_input:
         st.image(image_input,caption="Uploaded Image",use_column_width=True)
 if st.button("Extract Expense"):
-    st.subheader("Extracted Expense (prototype output)")
-    dumy_json={
-    "amount":250,
-    "catogory":"food",
-    "merchant":"zomato",
-    "date":"2025-12-25",
-    "payment_method":"UPI"
-    }
-    st.json(dumy_json)
+    if options == "Text" and text_input:
+        backend_url = "http://localhost:8000/parse-expense"
+
+        response = requests.post(
+            backend_url,
+            data={"text": text_input}   # send as Form
+        )
+
+        if response.status_code == 200:
+            st.subheader("Extracted Expense")
+            st.json(response.json())
+        else:
+            st.error("Backend error")
+
+    else:
+        st.warning("Please enter expense text")
